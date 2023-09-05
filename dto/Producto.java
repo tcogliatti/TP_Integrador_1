@@ -1,4 +1,4 @@
-package entidades;
+package dto;
 
 public class Producto {
 

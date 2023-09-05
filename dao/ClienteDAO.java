@@ -1,6 +1,6 @@
 package dao;
 
-import entidades.Cliente;
+import dto.Cliente;
 import factory.MySQLDAOFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,17 +15,18 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
     }
 
     @Override
-    public void buscar(int id) throws Exception {
+    public Cliente buscar(int id) throws Exception {
         try{
             MySQLDAOFactory.conectar();
-            String query = "SELECT FROM cliente " +
-                            "WHERE id =? ";
+            String query = "SELECT * FROM cliente " +
+                            "WHERE id = ?";
             PreparedStatement st = this.conexion.prepareStatement(query);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                System.out.println( rs.getString("name") + ", " +rs.getString("email"));
-            }
+            if (rs.next())
+                return new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3));
+            else
+                return null;
         }catch (Exception e){
             throw e;
         }finally {
@@ -91,9 +92,8 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
                 "(idCliente INT, " +
                 "nombre VARCHAR(500)," +
                 "email VARCHAR(150)," +
-                "PRIMARY KEY (idCliente)";
+                "PRIMARY KEY (idCliente))";
         this.conexion.prepareStatement(queryTablaCliente).execute();
-        this.conexion.commit();
         this.conexion.close();
     }
 

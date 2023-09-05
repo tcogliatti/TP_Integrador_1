@@ -5,30 +5,31 @@ import dao.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Locale;
 
-public class MySQLDAOFactory  extends DAOFactory{
+public class MySQLDAOFactory extends DAOFactory {
 
     //JDBC driver y base de datos URL
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost:3306/db_practico1";
+
     //base de datos credenciales
     private static final String USER = "root";
     private static final String PASS = "";
 
-    private static MySQLDAOFactory instancia;
+    private static MySQLDAOFactory instancia = new MySQLDAOFactory();
     protected static Connection conexion;
 
     //Constructor privado para evitar crear un new una nueva instancia
-    protected MySQLDAOFactory(){};
+    protected MySQLDAOFactory() {
+        Locale.setDefault(new Locale("en", "US"));
+    }
 
-    public static MySQLDAOFactory getInstancia(){
-        if(instancia == null){
-            instancia = new MySQLDAOFactory();
-        }
+    public static MySQLDAOFactory getInstancia() {
         return instancia;
     }
 
-    public static Connection conectar() throws  Exception{
+    public static Connection conectar() throws Exception {
         try {
             conexion = DriverManager.getConnection(DB_URL, USER, PASS);
             Class.forName(DRIVER).getDeclaredConstructor().newInstance();
@@ -40,14 +41,25 @@ public class MySQLDAOFactory  extends DAOFactory{
 
     public InterfaceDAO getClienteDAO() throws Exception {
         return new ClienteDAO();
-    };
-    public FacturaDAO getFacturaDAO(){
+    }
+
+    ;
+
+    public FacturaDAO getFacturaDAO() {
         return null;
-    };
-    public ProductoDAO getProductoDAO(){
+    }
+
+    ;
+
+    public ProductoDAO getProductoDAO() {
         return null;
-    };
-    public FacturaProductoDAO getFacturaProductoDAO(){
+    }
+
+    ;
+
+    public FacturaProductoDAO getFacturaProductoDAO() {
         return null;
-    };
+    }
+
+    ;
 }

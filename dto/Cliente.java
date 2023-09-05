@@ -1,4 +1,4 @@
-package entidades;
+package dto;
 
 public class Cliente {
 
@@ -6,7 +6,8 @@ public class Cliente {
     private String nombre;
     private String email;
 
-    public Cliente(String nombre, String email){
+    public Cliente(Integer id, String nombre, String email){
+        this.idCliente = id;
         this.email = email;
         this.nombre = nombre;
     }
