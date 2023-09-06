@@ -2,6 +2,8 @@ import dao.InterfaceDAO;
 import dao.MySQLProductoDAO;
 import factory.DAOFactory;
 public class app {
+
+    private String nombre;
     public static void main(String[] args) throws Exception {
 
         DAOFactory MySQL_Factory = DAOFactory.getDAOFactory(DAOFactory.MYSQL_JDBC);
@@ -11,4 +13,6 @@ public class app {
         InterfaceDAO facturaProductoDao = MySQL_Factory.getFacturaProductoDAO();
 
     }
+
+
 }
