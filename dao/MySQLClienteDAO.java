@@ -18,7 +18,7 @@ public class MySQLClienteDAO implements InterfaceDAO<Cliente> {
         Connection conexion = MySQLDAOFactory.conectar();
         try {
             String query = "SELECT * FROM cliente " +
-                    "WHERE id = ?";
+                    "WHERE idCliente = ?";
             PreparedStatement st = conexion.prepareStatement(query);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
@@ -39,7 +39,7 @@ public class MySQLClienteDAO implements InterfaceDAO<Cliente> {
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "DELETE FROM cliente " +
-                            "WHERE id =? ");
+                            "WHERE idCliente =? ");
             st.setInt(1, cliente.getIdCliente());
             st.executeUpdate();
         } catch (Exception e) {
@@ -70,10 +70,11 @@ public class MySQLClienteDAO implements InterfaceDAO<Cliente> {
     public void modificar(Cliente cliente) throws Exception {
         Connection conexion = MySQLDAOFactory.conectar();
         try {
-            PreparedStatement st = conexion.prepareStatement(
-                    "UPDATE  cliente" +
-                            "nombre=?, email=?" +
-                            "WHERE  id = ? ");
+            String query =
+                    "UPDATE  cliente " +
+                    "SET nombre = ?, email = ?" +
+                    "WHERE idCliente = ?";
+            PreparedStatement st = conexion.prepareStatement(query);
             st.setString(1, cliente.getNombre());
             st.setString(2, cliente.getEmail());
             st.setInt(3, cliente.getIdCliente());

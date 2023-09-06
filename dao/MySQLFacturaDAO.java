@@ -18,7 +18,7 @@ public class MySQLFacturaDAO implements InterfaceDAO<Factura> {
         Connection conexion = MySQLDAOFactory.conectar();
         try {
             String query = "SELECT * FROM factura " +
-                    "WHERE id = ?";
+                    "WHERE idFactura = ?";
             PreparedStatement st = conexion.prepareStatement(query);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
@@ -39,7 +39,7 @@ public class MySQLFacturaDAO implements InterfaceDAO<Factura> {
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "DELETE FROM factura " +
-                            "WHERE id = ? ");
+                            "WHERE idFactura = ? ");
             st.setInt(1, factura.getIdFactura());
             st.executeUpdate();
         } catch (Exception e) {
@@ -69,10 +69,11 @@ public class MySQLFacturaDAO implements InterfaceDAO<Factura> {
     public void modificar(Factura factura) throws Exception {
         Connection conexion = MySQLDAOFactory.conectar();
         try {
-            PreparedStatement st = conexion.prepareStatement(
-                    "UPDATE  factura" +
-                            "idCliente= ?" +
-                            "WHERE  idCliente = ? ");
+            String query =
+                    "UPDATE  factura " +
+                    "SET idCliente = ? " +
+                    "WHERE  idCliente = ?";
+            PreparedStatement st = conexion.prepareStatement(query);
             st.setInt(1, factura.getIdCliente());
             st.setInt(2, factura.getIdFactura());
             st.executeUpdate();
@@ -87,9 +88,9 @@ public class MySQLFacturaDAO implements InterfaceDAO<Factura> {
         Connection conexion = MySQLDAOFactory.conectar();
         String queryTablaCliente =
                 "CREATE TABLE IF NOT EXISTS factura " +
-                        "(idFactura INT AUTO_INCREMENT, " +
-                        "idCliente INT, " +
-                        "PRIMARY KEY (idFactura))";
+                "(idFactura INT AUTO_INCREMENT, " +
+                "idCliente INT, " +
+                "PRIMARY KEY (idFactura))";
         conexion.prepareStatement(queryTablaCliente).execute();
         conexion.close();
         System.out.println("Tabla Factura Creada");

@@ -1,10 +1,15 @@
 package dto;
 
 public class Producto {
-
     private int idProducto;
     private float valor;
     private String nombre;
+
+    public Producto(int idProducto, float valor, String nombre) {
+        this.idProducto = idProducto;
+        this.valor = valor;
+        this.nombre = nombre;
+    }
 
     public String getNombre() {
         return nombre;
