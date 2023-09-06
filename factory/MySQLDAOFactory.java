@@ -65,11 +65,11 @@ public class MySQLDAOFactory extends DAOFactory {
         return new MySQLFacturaDAO();
     }
 
-    public MySQLProductoDAO getProductoDAO() throws Exception  {
+    public MySQLProductoDAO getProductoDAO() throws Exception {
         return new MySQLProductoDAO();
     }
 
-    public MySQLFacturaProductoDAO getFacturaProductoDAO() {
-        return null;
+    public MySQLFacturaProductoDAO getFacturaProductoDAO() throws Exception {
+        return new MySQLFacturaProductoDAO();
     }
 }

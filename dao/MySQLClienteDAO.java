@@ -88,12 +88,12 @@ public class MySQLClienteDAO implements InterfaceDAO<Cliente> {
 
     public void crearTabla() throws Exception {
         Connection conexion = MySQLDAOFactory.conectar();
-        String queryTablaCliente = "CREATE TABLE IF NOT EXISTS cliente" +
+        String query = "CREATE TABLE IF NOT EXISTS cliente" +
                 "(idCliente INT AUTO_INCREMENT, " +
                 "nombre VARCHAR(500)," +
                 "email VARCHAR(150)," +
                 "PRIMARY KEY (idCliente))";
-        conexion.prepareStatement(queryTablaCliente).execute();
+        conexion.prepareStatement(query).execute();
         conexion.close();
         System.out.println("Tabla Cliente Creada");
     }

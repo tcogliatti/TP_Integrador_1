@@ -88,12 +88,12 @@ public class MySQLProductoDAO implements InterfaceDAO<Producto>{
 
     public void crearTabla() throws Exception {
         Connection conexion = MySQLDAOFactory.conectar();
-        String queryTablaProducto = "CREATE TABLE IF NOT EXISTS producto" +
+        String query = "CREATE TABLE IF NOT EXISTS producto" +
                 "(idProducto INT AUTO_INCREMENT, " +
                 "nombre VARCHAR(500)," +
                 "valor FLOAT," +
                 "PRIMARY KEY (idProducto))";
-        conexion.prepareStatement(queryTablaProducto).execute();
+        conexion.prepareStatement(query).execute();
         conexion.close();
         System.out.println("Tabla Producto Creada");
     }

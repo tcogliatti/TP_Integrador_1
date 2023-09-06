@@ -71,8 +71,8 @@ public class MySQLFacturaDAO implements InterfaceDAO<Factura> {
         try {
             String query =
                     "UPDATE  factura " +
-                    "SET idCliente = ? " +
-                    "WHERE  idCliente = ?";
+                            "SET idCliente = ? " +
+                            "WHERE  idCliente = ?";
             PreparedStatement st = conexion.prepareStatement(query);
             st.setInt(1, factura.getIdCliente());
             st.setInt(2, factura.getIdFactura());
@@ -86,12 +86,14 @@ public class MySQLFacturaDAO implements InterfaceDAO<Factura> {
 
     public void crearTabla() throws Exception {
         Connection conexion = MySQLDAOFactory.conectar();
-        String queryTablaCliente =
-                "CREATE TABLE IF NOT EXISTS factura " +
-                "(idFactura INT AUTO_INCREMENT, " +
-                "idCliente INT, " +
-                "PRIMARY KEY (idFactura))";
-        conexion.prepareStatement(queryTablaCliente).execute();
+        String query =
+                "CREATE TABLE IF NOT EXISTS factura (" +
+                        "idFactura INT AUTO_INCREMENT, " +
+                        "idCliente INT, " +
+                        "PRIMARY KEY (idFactura)," +
+                        "FOREIGN KEY (idCliente) REFERENCES cliente(idCliente)" +
+                        ")";
+        conexion.prepareStatement(query).execute();
         conexion.close();
         System.out.println("Tabla Factura Creada");
     }
