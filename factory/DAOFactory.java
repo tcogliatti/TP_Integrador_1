@@ -17,11 +17,11 @@ public abstract class DAOFactory {
 
     public abstract InterfaceDAO getClienteDAO() throws Exception;
 
-    public abstract FacturaDAO getFacturaDAO() throws Exception;
+    public abstract InterfaceDAO getFacturaDAO() throws Exception;
 
-    public abstract ProductoDAO getProductoDAO() throws Exception;
+    public abstract MySQLProductoDAO getProductoDAO() throws Exception;
 
-    public abstract FacturaProductoDAO getFacturaProductoDAO() throws Exception;
+    public abstract MySQLFacturaProductoDAO getFacturaProductoDAO() throws Exception;
 
 
 }

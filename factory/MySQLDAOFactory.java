@@ -2,9 +2,7 @@ package factory;
 
 import dao.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Locale;
 
 public class MySQLDAOFactory extends DAOFactory {
@@ -39,27 +37,39 @@ public class MySQLDAOFactory extends DAOFactory {
         return conexion;
     }
 
+    public static boolean checkIfExistsEntity(String table, Connection conn) throws SQLException {
+        try {
+            conn = MySQLDAOFactory.conectar();
+            String query = "SELECT * " +
+                    "FROM information_schema.tables " +
+                    "WHERE table_schema = 'db_practico1' " +
+                    "AND table_name = '" + table + "'";
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            if (rs.next())
+                return true;
+            else
+                return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            conn.close();
+        }
+    }
+
     public InterfaceDAO getClienteDAO() throws Exception {
-        return new ClienteDAO();
+        return new MySQLClienteDAO();
     }
 
-    ;
+    public InterfaceDAO getFacturaDAO() throws Exception {
+        return new MySQLFacturaDAO();
+    }
 
-    public FacturaDAO getFacturaDAO() {
+    public MySQLProductoDAO getProductoDAO() {
         return null;
     }
 
-    ;
-
-    public ProductoDAO getProductoDAO() {
+    public MySQLFacturaProductoDAO getFacturaProductoDAO() {
         return null;
     }
-
-    ;
-
-    public FacturaProductoDAO getFacturaProductoDAO() {
-        return null;
-    }
-
-    ;
 }

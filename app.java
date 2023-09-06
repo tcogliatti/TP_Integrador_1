@@ -9,6 +9,8 @@ public class app {
 
         DAOFactory MySQL_Factory = DAOFactory.getDAOFactory(DAOFactory.MYSQL_JDBC);
         InterfaceDAO clienteDao = MySQL_Factory.getClienteDAO();
+        InterfaceDAO facturaDao = MySQL_Factory.getFacturaDAO();
+
         
         //clienteDao.registrar("daira", "admin@gmail.com");
     }
