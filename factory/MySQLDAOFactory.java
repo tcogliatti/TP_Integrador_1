@@ -16,10 +16,9 @@ public class MySQLDAOFactory extends DAOFactory {
     private static final String PASS = "";
 
     private static MySQLDAOFactory instancia = new MySQLDAOFactory();
-    protected static Connection conexion;
 
     //Constructor privado para evitar crear un new una nueva instancia
-    protected MySQLDAOFactory() {
+    private MySQLDAOFactory() {
         Locale.setDefault(new Locale("en", "US"));
     }
 
@@ -28,6 +27,7 @@ public class MySQLDAOFactory extends DAOFactory {
     }
 
     public static Connection conectar() throws Exception {
+        Connection conexion;
         try {
             conexion = DriverManager.getConnection(DB_URL, USER, PASS);
             Class.forName(DRIVER).getDeclaredConstructor().newInstance();

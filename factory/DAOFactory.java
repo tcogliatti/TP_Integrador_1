@@ -9,7 +9,7 @@ public abstract class DAOFactory {
     public static DAOFactory getDAOFactory(int DB_Factory) {
         switch (DB_Factory) {
             case MYSQL_JDBC:
-                return new MySQLDAOFactory();
+                return MySQLDAOFactory.getInstancia();
             default:
                 return null;
         }
