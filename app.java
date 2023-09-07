@@ -7,6 +7,8 @@ import factory.MySQLDAOFactory;
 import java.util.ArrayList;
 
 public class app {
+
+    private String nombre;
     public static void main(String[] args) throws Exception {
 
         DAOFactory MySQL_Factory = DAOFactory.getDAOFactory(DAOFactory.MYSQL_JDBC);
@@ -18,4 +20,6 @@ public class app {
         ArrayList<Cliente> c = MySQL_Factory.listAllClient();
         System.out.println(c);
     }
+
+
 }
