@@ -17,7 +17,7 @@ public class MySQLDAOFactory extends DAOFactory {
     private static final String USER = "root";
     private static final String PASS = "";
 
-    private static MySQLDAOFactory instancia = new MySQLDAOFactory();
+    private static MySQLDAOFactory instancia;
 
     //Constructor privado para evitar crear un new una nueva instancia
     private MySQLDAOFactory() {
@@ -25,14 +25,16 @@ public class MySQLDAOFactory extends DAOFactory {
     }
 
     public static MySQLDAOFactory getInstancia() {
+        if(instancia == null)
+            instancia = new MySQLDAOFactory();
         return instancia;
     }
 
     public static Connection conectar() throws Exception {
         Connection conexion;
         try {
-            conexion = DriverManager.getConnection(DB_URL, USER, PASS);
             Class.forName(DRIVER).getDeclaredConstructor().newInstance();
+            conexion = DriverManager.getConnection(DB_URL, USER, PASS);
         } catch (SQLException e) {
             throw e;
         }
@@ -67,11 +69,11 @@ public class MySQLDAOFactory extends DAOFactory {
         return new MySQLFacturaDAO();
     }
 
-    public MySQLProductoDAO getProductoDAO() throws Exception {
+    public InterfaceDAO getProductoDAO() throws Exception {
         return new MySQLProductoDAO();
     }
 
-    public MySQLFacturaProductoDAO getFacturaProductoDAO() throws Exception {
+    public InterfaceDAO getFacturaProductoDAO() throws Exception {
         return new MySQLFacturaProductoDAO();
     }
 

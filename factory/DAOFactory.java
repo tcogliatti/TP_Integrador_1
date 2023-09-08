@@ -22,9 +22,9 @@ public abstract class DAOFactory {
 
     public abstract InterfaceDAO getFacturaDAO() throws Exception;
 
-    public abstract MySQLProductoDAO getProductoDAO() throws Exception;
+    public abstract InterfaceDAO getProductoDAO() throws Exception;
 
-    public abstract MySQLFacturaProductoDAO getFacturaProductoDAO() throws Exception;
+    public abstract InterfaceDAO getFacturaProductoDAO() throws Exception;
 
     // SQL especificas
     public abstract ArrayList<Cliente> listAllClient() throws Exception;
