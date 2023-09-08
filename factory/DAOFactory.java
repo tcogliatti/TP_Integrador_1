@@ -1,6 +1,9 @@
 package factory;
 
 import dao.*;
+import dto.Cliente;
+
+import java.util.ArrayList;
 
 public abstract class DAOFactory {
 
@@ -22,6 +25,9 @@ public abstract class DAOFactory {
     public abstract InterfaceDAO getProductoDAO() throws Exception;
 
     public abstract InterfaceDAO getFacturaProductoDAO() throws Exception;
+
+    // SQL especificas
+    public abstract ArrayList<Cliente> listAllClient() throws Exception;
 
 
 }
