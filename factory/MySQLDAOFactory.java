@@ -1,7 +1,6 @@
 package factory;
 
 import dao.*;
-
 import java.sql.*;
 import java.util.Locale;
 
@@ -9,29 +8,31 @@ public class MySQLDAOFactory extends DAOFactory {
 
     //JDBC driver y base de datos URL
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/db_practico1";
+    private static final String DB_URL =  "jdbc:mysql://localhost:3306/db_practico1";
 
     //base de datos credenciales
     private static final String USER = "root";
     private static final String PASS = "";
-
-    private static MySQLDAOFactory instancia = new MySQLDAOFactory();
+    private static MySQLDAOFactory instancia;
     protected static Connection conexion;
 
     //Constructor privado para evitar crear un new una nueva instancia
-    protected MySQLDAOFactory() {
+    private MySQLDAOFactory() {
         Locale.setDefault(new Locale("en", "US"));
     }
 
     public static MySQLDAOFactory getInstancia() {
+        if(instancia == null){
+            instancia = new MySQLDAOFactory();
+        }
         return instancia;
     }
 
     public static Connection conectar() throws Exception {
         try {
-            conexion = DriverManager.getConnection(DB_URL, USER, PASS);
             Class.forName(DRIVER).getDeclaredConstructor().newInstance();
-        } catch (SQLException e) {
+            conexion = DriverManager.getConnection(DB_URL , USER, PASS);
+        } catch (SQLException | ClassNotFoundException e) {
             throw e;
         }
         return conexion;
@@ -42,7 +43,7 @@ public class MySQLDAOFactory extends DAOFactory {
             conn = MySQLDAOFactory.conectar();
             String query = "SELECT * " +
                     "FROM information_schema.tables " +
-                    "WHERE table_schema = 'db_practico1' " +
+                    "WHERE table_schema ='db_practico1' " +
                     "AND table_name = '" + table + "'";
             PreparedStatement st = conn.prepareStatement(query);
             ResultSet rs = st.executeQuery();
@@ -65,11 +66,11 @@ public class MySQLDAOFactory extends DAOFactory {
         return new MySQLFacturaDAO();
     }
 
-    public MySQLProductoDAO getProductoDAO() throws Exception {
+    public InterfaceDAO getProductoDAO() throws Exception {
         return new MySQLProductoDAO();
     }
 
-    public MySQLFacturaProductoDAO getFacturaProductoDAO() throws Exception {
+    public InterfaceDAO getFacturaProductoDAO() throws Exception {
         return new MySQLFacturaProductoDAO();
     }
 }

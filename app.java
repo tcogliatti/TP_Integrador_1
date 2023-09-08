@@ -1,6 +1,5 @@
-import dao.InterfaceDAO;
-import dao.MySQLProductoDAO;
-import factory.DAOFactory;
+import dao.*;
+import factory.*;
 public class app {
 
     private String nombre;
