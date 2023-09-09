@@ -16,7 +16,7 @@ import java.io.FileReader;
 public class CSVcharger<T> {
 
     private String dataSetName;
-    private String path = "/Users/daira/projects/ArquitecturaWeb/TP_Integrador_1/src/main/java/csv/";
+    private String path = "./src/main/java/csv/";
 
     public CSVcharger() {
 
