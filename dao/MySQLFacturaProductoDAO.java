@@ -1,7 +1,9 @@
 package dao;
 
+import csv.CSVcharger;
 import dto.FacturaProducto;
 import factory.MySQLDAOFactory;
+import interfaces.InterfaceDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,15 +11,18 @@ import java.sql.ResultSet;
 
 public class MySQLFacturaProductoDAO implements InterfaceDAO<FacturaProducto> {
     public MySQLFacturaProductoDAO() throws Exception {
-        if (!MySQLDAOFactory.checkIfExistsEntity("factura_producto", MySQLDAOFactory.conectar()))
+        if (!MySQLDAOFactory.checkIfExistsEntity("factura_producto", MySQLDAOFactory.conectar())){
             this.crearTabla();
+            CSVcharger cargarFacturasProductos = new CSVcharger();
+            cargarFacturasProductos.cargarFacturasProductos(this);
+        }
     }
 
     @Override
     public FacturaProducto buscar(int id) throws Exception {
         Connection conexion = MySQLDAOFactory.conectar();
         try {
-            String query = "SELECT * FROM facturaProducto " +
+            String query = "SELECT * FROM factura_producto " +
                     "WHERE idFactura = ?";
             PreparedStatement st = conexion.prepareStatement(query);
             st.setInt(1, id);
@@ -38,7 +43,7 @@ public class MySQLFacturaProductoDAO implements InterfaceDAO<FacturaProducto> {
         Connection conexion = MySQLDAOFactory.conectar();
         try {
             PreparedStatement st = conexion.prepareStatement(
-                    "DELETE FROM facturaProducto " +
+                    "DELETE FROM factura_producto " +
                             "WHERE idFactura = ?");
             st.setInt(1, facturaProducto.getIdFactura());
             st.executeUpdate();
@@ -54,7 +59,7 @@ public class MySQLFacturaProductoDAO implements InterfaceDAO<FacturaProducto> {
         Connection conexion = MySQLDAOFactory.conectar();
         try {
             PreparedStatement st = conexion.prepareStatement(
-                    "INSERT INTO facturaProducto (idFactura, idProducto, cantidad) " +
+                    "INSERT INTO factura_producto (idFactura, idProducto, cantidad) " +
                             "VALUES (?,?,?)");
             st.setInt(1, facturaProducto.getIdFactura());
             st.setInt(2, facturaProducto.getIdProducto());
@@ -72,7 +77,7 @@ public class MySQLFacturaProductoDAO implements InterfaceDAO<FacturaProducto> {
         Connection conexion = MySQLDAOFactory.conectar();
         try {
             String query =
-                    "UPDATE facturaProducto " +
+                    "UPDATE factura_producto " +
                             "SET idFactura = ?, idProducto = ?, cantidad =? " +
                             "WHERE  idFactura = ? ";
             PreparedStatement st = conexion.prepareStatement(query);
@@ -101,4 +106,6 @@ public class MySQLFacturaProductoDAO implements InterfaceDAO<FacturaProducto> {
         conexion.close();
         System.out.println("Tabla FacturaProducto Creada");
     }
+
+
 }

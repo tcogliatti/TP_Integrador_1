@@ -5,9 +5,23 @@ public class Cliente {
     private int idCliente;
     private String nombre;
     private String email;
+    public Float getTotalFacturado() {
+        return totalFacturado;
+    }
+
+    public void setTotalFacturado(Float totalFacturado) {
+        this.totalFacturado = totalFacturado;
+    }
+
+    private Float totalFacturado;
 
     public Cliente(Integer id, String nombre, String email){
         this.idCliente = id;
+        this.email = email;
+        this.nombre = nombre;
+    }
+
+    public Cliente( String nombre, String email){
         this.email = email;
         this.nombre = nombre;
     }
@@ -38,6 +52,6 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return  "ID: " + this.idCliente + " - Nombre: " + this.nombre + " - Email: " + this.email + "||";
+        return  "ID: " + this.idCliente + " \t - Nombre:" + this.nombre + "\t - Email: " + this.email + "\t";
     }
 }

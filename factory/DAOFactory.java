@@ -1,7 +1,10 @@
 package factory;
 
-import dao.*;
 import dto.Cliente;
+import dto.Producto;
+import interfaces.InterfaceClienteDAO;
+import interfaces.InterfaceDAO;
+import interfaces.InterfaceProductoDAO;
 
 import java.util.ArrayList;
 
@@ -18,11 +21,11 @@ public abstract class DAOFactory {
         }
     }
 
-    public abstract InterfaceDAO getClienteDAO() throws Exception;
+    public abstract InterfaceClienteDAO<Cliente> getClienteDAO() throws Exception;
 
     public abstract InterfaceDAO getFacturaDAO() throws Exception;
 
-    public abstract InterfaceDAO getProductoDAO() throws Exception;
+    public abstract InterfaceProductoDAO<Producto> getProductoDAO() throws Exception;
 
     public abstract InterfaceDAO getFacturaProductoDAO() throws Exception;
 

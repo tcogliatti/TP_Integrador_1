@@ -1,16 +1,24 @@
 package dao;
 
+import csv.CSVcharger;
 import dto.Cliente;
+import dto.Producto;
 import factory.MySQLDAOFactory;
+import interfaces.InterfaceClienteDAO;
+import interfaces.InterfaceDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
-public class MySQLClienteDAO implements InterfaceDAO<Cliente> {
+public class MySQLClienteDAO implements InterfaceClienteDAO<Cliente> {
     public MySQLClienteDAO() throws Exception {
-        if(!MySQLDAOFactory.checkIfExistsEntity("cliente", MySQLDAOFactory.conectar()))
+        if(!MySQLDAOFactory.checkIfExistsEntity("cliente", MySQLDAOFactory.conectar())){
             this.crearTabla();
+            CSVcharger cargarClientes = new CSVcharger<>();
+            cargarClientes.cargaClientes(this);
+        }
     }
 
     @Override
@@ -96,5 +104,29 @@ public class MySQLClienteDAO implements InterfaceDAO<Cliente> {
         conexion.prepareStatement(query).execute();
         conexion.close();
         System.out.println("Tabla Cliente Creada");
+    }
+
+    @Override
+    public ArrayList<Cliente> obtenerClientePorRecaudacion() throws Exception {
+        Connection conexion = MySQLDAOFactory.conectar();
+        String query = "SELECT f.idCliente, c.nombre, SUM(fp.cantidad * p.valor) AS total_valor " +
+                "FROM factura_producto fp " +
+                "JOIN producto p ON p.idProducto = fp.idProducto " +
+                "JOIN factura f ON f.idFactura = fp.idFactura " +
+                "JOIN cliente c ON c.idCliente = f.idCliente " +
+                "GROUP BY f.idCliente , c.nombre " +
+                "order by total_valor DESC";
+        PreparedStatement st = conexion.prepareStatement(query);
+        ResultSet rs = st.executeQuery();
+
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        Cliente cliente;
+        while (rs.next()){
+            cliente = this.buscar(rs.getInt(1));
+            cliente.setTotalFacturado( rs.getFloat(3));
+            clientes.add(cliente);
+        }
+        conexion.close();
+        return clientes;
     }
 }

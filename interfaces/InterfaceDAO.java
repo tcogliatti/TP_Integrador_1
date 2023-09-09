@@ -1,4 +1,4 @@
-package dao;
+package interfaces;
 
 //debería haber una interface para cada entidad
 public interface InterfaceDAO<T> {

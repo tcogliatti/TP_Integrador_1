@@ -1,16 +1,21 @@
 package dao;
 
+import csv.CSVcharger;
 import dto.Producto;
 import factory.MySQLDAOFactory;
+import interfaces.InterfaceProductoDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class MySQLProductoDAO implements InterfaceDAO<Producto>{
+public class MySQLProductoDAO implements InterfaceProductoDAO<Producto> {
     public MySQLProductoDAO() throws Exception {
-        if(!MySQLDAOFactory.checkIfExistsEntity("producto", MySQLDAOFactory.conectar()))
+        if(!MySQLDAOFactory.checkIfExistsEntity("producto", MySQLDAOFactory.conectar())){
             this.crearTabla();
+            CSVcharger cargarProductos = new CSVcharger();
+            cargarProductos.cargarProductos(this);
+        }
     }
 
     @Override
@@ -96,5 +101,24 @@ public class MySQLProductoDAO implements InterfaceDAO<Producto>{
         conexion.prepareStatement(query).execute();
         conexion.close();
         System.out.println("Tabla Producto Creada");
+    }
+    public Producto mayorRecaudacionPorProducto() throws Exception {
+        Connection conexion = MySQLDAOFactory.conectar();
+        String query = "SELECT p.idProducto, p.nombre, SUM(fp.cantidad) * p.valor as recaudacion " +
+                "FROM factura_producto fp " +
+                "JOIN producto p on p.idProducto = fp.idProducto " +
+                "GROUP BY p.idProducto " +
+                "ORDER BY recaudacion DESC " +
+                "LIMIT 1; ";
+        PreparedStatement st = conexion.prepareStatement(query);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()){
+            Producto p = this.buscar(rs.getInt(1));
+            p.setRecaudacion( rs.getFloat(3));
+            conexion.close();
+            return p;
+        }
+        conexion.close();
+        return null;
     }
 }

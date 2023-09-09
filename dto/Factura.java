@@ -8,6 +8,10 @@ public class Factura {
         this.idCliente = idC;
     }
 
+    public Factura(int idC){
+        this.idCliente = idC;
+    }
+
     public int getIdCliente() {
         return idCliente;
     }

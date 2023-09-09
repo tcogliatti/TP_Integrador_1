@@ -2,6 +2,10 @@ package factory;
 
 import dao.*;
 import dto.Cliente;
+import dto.Producto;
+import interfaces.InterfaceClienteDAO;
+import interfaces.InterfaceDAO;
+import interfaces.InterfaceProductoDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -61,7 +65,7 @@ public class MySQLDAOFactory extends DAOFactory {
         }
     }
 
-    public InterfaceDAO getClienteDAO() throws Exception {
+    public InterfaceClienteDAO<Cliente> getClienteDAO() throws Exception {
         return new MySQLClienteDAO();
     }
 
@@ -69,7 +73,7 @@ public class MySQLDAOFactory extends DAOFactory {
         return new MySQLFacturaDAO();
     }
 
-    public InterfaceDAO getProductoDAO() throws Exception {
+    public InterfaceProductoDAO<Producto> getProductoDAO() throws Exception {
         return new MySQLProductoDAO();
     }
 
@@ -96,4 +100,6 @@ public class MySQLDAOFactory extends DAOFactory {
         conexion.close();
         return clientes;
     }
+
+
 }
